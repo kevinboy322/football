@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from bs4 import BeautifulSoup
+from scrapy.selector import Selector
+from football.items import FootballItem
 
 class ShoumiSpider(scrapy.Spider):
     name = 'shoumi'
@@ -8,16 +10,10 @@ class ShoumiSpider(scrapy.Spider):
     start_urls = ['http://live.titan007.com/']
 
     def parse(self, response):
-        html = response.body
-        all_a = BeautifulSoup(html, 'lxml').find('table', id='table_live').find_all('a')
-        print(all_a)
-        # all = BeautifulSoup(html)
-        # items = []
-        # num = 1
-        # for sel in :
-        #     if num == 1:
-        #         num += 1
-        #         continue
-        #     elif sel.xpath('td[3][text()="完"]'):
-        #         items["matchId"] = sel.
-        pass
+        item = FootballItem()
+        body = response.body
+        selector = Selector(response)
+        table = selector.xpath('//*[@id="button"]')
+        print(table)
+        item['body'] = table
+        yield item
